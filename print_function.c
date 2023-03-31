@@ -41,54 +41,37 @@ char *print_s(va_list list)
  * @list: list of arguments
  * Return: pointer args
  */
-
 char *print_i(va_list list)
 {
 	char *output;
-
 	int divisor = 1000000000;
-	int digit = 0, i = 0, neg = 0;
-	int num = va_arg(list, int);
-	int len = _numlen(num);
-	output = malloc(len * sizeof(char) + 1 + neg);
+	int digit, i = 0, neg = 0, num = va_arg(list, int), len = _numlen(num);
+
+	output = malloc(len + neg + 1);
 	if (output == NULL)
-	{
-		free(output);
 		return (0);
-	}
+
 	if (num < 0)
 	{
-		neg++;
+		neg = 1;
+		output[i++] = '-';
+		num = -num;
 	}
-	if (num < 0)
+
+	while (divisor || num)
 	{
-		output[i] = '-';
-		i++;
-	}
-	if (num > -10 && num < 10)
-	{
-		output[i] = _abs(num) + '0';
-		return (output);
-	}
-	while (divisor)
-	{
-		digit = (num / divisor) % 10;
-		if (num < 0)
+		digit = num / divisor;
+		if (digit || i || !divisor)
 		{
-			digit = _abs(digit);
+			output[i++] = digit > 0 ? digit + '0' : '0' - digit;
 		}
-		if (digit != 0 || (len >= 0  && output[i - 1] >= '0'))
-		{
-			output[i] = digit + '0';
-			i++;
-			len--;
-		}
+		num %= divisor;
 		divisor /= 10;
 	}
+
 	output[i] = '\0';
 	return (output);
 }
-
 /**
  * print_percent - prints a percent
  * @l: va_list arguments from _printf
@@ -111,18 +94,4 @@ int print_percent(va_list l, flags_t *f)
  * if a flag is passed to _printf
  * Return: number of char printed
  */
-int print_int(va_list l, flags_t *f)
-{
-        int n = va_arg(l, int);
-        int res = count_digit(n);
-
-        if (f->space == 1 && f->plus == 0 && n >= 0)
-                res += _putchar(' ');
-        if (f->plus == 1 && n >= 0)
-                res += _putchar('+');
-        if (n <= 0)
-                res++;
-        print_number(n);
-        return (res);
-}
 
