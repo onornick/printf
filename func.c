@@ -42,21 +42,36 @@ int _puts(char *str)
 }
 
 
-/* Returns the number of digits in a long integer */
-int _numlen(long _num) {
-    int len = 1;
-    while ((_num /= 10) != 0) {
-        len++;
-    }
-    return len;
+/**
+ * _numlen - Returns the number of digits in a long integer
+ * @_num: parameter
+ * Return: Returns the number of digits in a long integer
+ */
+int _numlen(long _num)
+{
+	int len = 1;
+
+	while ((_num /= 10) != 0)
+	{
+		len++;
+	}
+	return (len);
 }
 
-/* Returns the absolute value of an integer */
-int _abs(int num) {
-    if (num < 0) {
-        return -num;
-    } else {
-        return num;
-    }
+/**
+ * _abs -  Returns the absolute value of an integer
+ * @num: parameter
+ * Return: Returns the absolute value of an integer
+ */
+int _abs(int num)
+{
+	if (num < 0)
+	{
+		return (-num);
+	}
+	else
+	{
+		return (num);
+	}
 }
 
